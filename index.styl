@@ -1,0 +1,135 @@
+*
+  box-sizing: border-box
+  margin-top: 0
+
+:root
+  --font-size: 12px
+
+  @media (min-width: 500px)
+    --font-size: 16px
+
+  @media (min-width: 1000px)
+    --font-size: 20px
+
+  @media (min-width: 2000px)
+    --font-size: 24px
+
+body
+  background: #2d2d2d
+  color: #111
+  font-family: 'Merriweather', serif
+  font-size: var(--font-size)
+  line-height: 1.5
+  margin: 0
+  padding: 0
+
+main
+  background: #fff
+  width: 65ch
+  margin: 80vh auto
+  max-width: 100%
+  padding: 1em
+
+a
+  color: hsl(120deg, 80%, 60%)
+  text-decoration: none
+
+  &:hover
+    text-decoration: underline
+    text-decoration-color: hsl(180deg, 80%, 60%)
+
+  &[href^='http']
+    color: hsl(200deg, 80%, 60%)
+
+dl, ol, p, ul
+  margin: 0
+  padding: 0.5em 0
+
+ol, ul
+  padding-left: 1em
+
+h1, h2, h3, h4, h5, h6
+  color: #222
+  font-family: 'Work Sans', sans-serif
+  font-weight: 500
+  margin: 0
+  padding: 0
+
+h1  /* 60px vertical */
+  font-size: 2em  /* 24px relative to 12px */
+  line-height: 1.5  /* 36px */
+  padding-bottom: 0.25em  /* 6px relative to 24px */
+  padding-top: 0.75em  /* 18px relative to 24px */
+
+  img.github
+    position: relative
+    top: 0.15em
+    width: 0.9em
+
+  a
+    font-size: 0.6em
+    padding-left: 0.5em
+
+h2  /* 48px vertical */
+  font-size: 1.667em  /* 20px relative to 12px */
+  line-height: 1.5  /* 30px */
+  padding-bottom: 0.3em  /* 6px relative to 20px */
+  padding-top: 0.6em  /* 12px relative to 20px */
+
+h3  /* 36px vertical */
+  font-size: 1.345em  /* 16px relative to 12px */
+  line-height: 1.25  /* 20px */
+  padding-bottom: 0.25em  /* 4px relative to 16px */
+  padding-top: 0.75em  /* 12px relative to 16px */
+
+code
+  font-family: Inconsolata, monospace
+
+p code
+  background: #ddd
+  border-radius: 0.2em
+  padding: 0.2em 0.3em
+
+.code
+  pre[class*='language-']
+  code[class*='language-']
+    border-radius: 0.5em
+    font-size: 93%
+    line-height: 1.3
+
+main > p:first-child
+  font-size: 1.345em
+  line-height: 1.5
+  margin: 0
+  padding: 0
+
+.banana
+  float: left
+  margin-right: 0.5em
+  max-width: 100%
+
+footer
+  font-size: smaller
+  padding-top: 1em
+
+  .license img
+    height: 22px
+    margin-left: 3px
+    vertical-align: text-bottom
+
+svg#penrose
+  height: 100vh
+  position: fixed
+  top: 0
+  width: 100vw
+  z-index: -1
+
+  path.tile
+    stroke: #111
+    stroke-width: 0.01px
+    transition: opacity 2s
+
+  path.arc
+    display: none
+    stroke-width: 0.01px
+    fill: none

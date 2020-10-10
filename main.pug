@@ -1,0 +1,116 @@
+p.
+  I am a programmer by vocation: I program full-time for a living, but I like
+  to write software in my free time as well.
+
+p.
+  I try to open-source as much as possible. Most of my work these days is
+  written in #[a(href='https://python.org') Python], with a lot of help from
+  #[a(href='https://scipy.org') numpy and scipy]. For machine learning I use
+  #[a(href='https://tensorflow.org/') Tensorflow] at work and
+  #[a(href='https://pytorch.org') PyTorch] at home.
+
+article
+  h1
+    span Theanets
+    a(href='https://github.com/lmjohns3/theanets/'): img.github(src='../github.png')
+    a(href='https://theanets.rtfd.org/') 📖
+  p.
+    #[code theanets] is a neural network toolkit for
+    #[a(href='https://python.org/') Python] that uses
+    #[a(href='https://deeplearning.net/software/theano') Theano] for the heavy
+    lifting. Thanks to Theano, your models will transparently run on a GPU.
+  p.
+    The toolkit makes it easy to create a wide variety of machine learning
+    models, including linear dense and sparse autoencoders (e.g., PCA and ICA),
+    denoising autoencoders, linear and nonlinear regression, regularized
+    regression (e.g., lasso or elastic net), linear and nonlinear classifiers,
+    and recurrent autoencoders and classifiers, including models using LSTM
+    cells or Clockwork RNN layers.
+  p.
+    Models can be constructed using different activation functions (e.g.,
+    linear, rectified linear, batch normalization, etc.) and different numbers
+    of layers (e.g., deep models). It is also easy to add different regularizers
+    to each of the models at optimization time&mdash;in fact, regularization is
+    often what differentiates two otherwise very similar models (e.g., PCA and
+    ICA).
+  .code
+    pre: code.language-python.
+      import theanets, numpy as np
+
+      def sample(n): return np.random.randn(n, 10)
+
+      # create an autoencoder model.
+      ae = theanets.Autoencoder([10, 2, 10])
+
+      # train it with a sparsity regularizer.
+      ae.train(sample(1000), sample(100),
+               algo='rmsprop', hidden_l1=0.1)
+
+      # continue training without the regularizer.
+      ae.train(sample(1000), sample(100),
+               algo='nag', momentum=0.9)
+
+      # use the trained model.
+      ae.predict(sample(10))
+
+article
+  h1
+    span Downhill
+    a(href='https://github.com/lmjohns3/downhill'): img.github(src='../github.png')
+    a(href='https://downhill.rtfd.org/') 📖
+  img.banana(src='https://downhill.readthedocs.org/en/latest/_images/rosenbrock-nag.png')
+  p.
+    #[code downhill] is a collection of stochastic gradient optimization
+    routines for loss functions defined using
+    #[a(href='https://deeplearning.net/software/theano') Theano].
+  p.
+    The package implements vanilla stochastic gradient descent (SGD), resilient
+    backpropagation, #[a(href='https://arxiv.org/abs/1502.04390') RMSProp],
+    #[a(href='https://arxiv.org/abs/1212.5701') ADADELTA],
+    #[a(href='https://arxiv.org/abs/1502.04390') Equilibrated SGD], and
+    #[a(href='https://arxiv.org/abs/1412.6980') Adam]. All optimization
+    algorithms can be combined with traditional and
+    #[a(href='https://machinelearning.wustl.edu/mlpapers/paper_files/icml2013_sutskever13.pdf') Nesterov (PDF)]
+    momentum.
+  .code
+    pre: code.language-python.
+      import climate, downhill, theano, numpy as np
+      import theano.tensor as TT
+
+      climate.enable_default_logging()
+
+      def rand(*s): return np.random.randn(*s).astype('f')
+
+      # Set up a matrix factorization problem to optimize.
+      A, B, K = 20, 5, 3
+      u = theano.shared(rand(A, K), name='u')
+      v = theano.shared(rand(K, B), name='v')
+      e = TT.sqr(TT.matrix() - TT.dot(u, v))
+
+      # Create a noisy low-rank matrix to factor.
+      z = np.clip(rand(A, K) - 0.1, 0, 10)
+      y = np.dot(z, rand(K, B)) + rand(A, B)
+
+      downhill.minimize(
+          # loss = |x - uv|_2 + |u|_1 + |v|_2
+          loss=e.mean() + abs(u).mean() + (v * v).mean(),
+          train=[y], batch_size=A, max_gradient_norm=1,
+          learning_rate=0.1)
+
+      print('Sparse Coefficients:', u.get_value())
+      print('Basis:', v.get_value())
+
+h1 Others
+dl
+  dt: a(href='https://github.com/EmbodiedCognition/py-c3d') py-c3d
+  dd A small set of utilities—at this point consisting of a file reader and writer, and a simple OpenGL visualization tool—for dealing with motion capture data files in the #[a(href='https://www.c3d.org/html/default.htm') C3D binary format].
+  dt: a(href='https://github.com/lmjohns3/py-depparse') py-depparse
+  dd A Python library and command-line tool for non-projective #[a(href='https://en.wikipedia.org/wiki/Parsing') dependency parsing] of natural language text.
+  dt: a(href='https://github.com/lmjohns3/kohonen') kohonen
+  dd A collection of several vector quantizers, including #[a(href='https://en.wikipedia.org/wiki/Self-organizing_map') self-organizing (Kohonen) map], #[a(href='https://en.wikipedia.org/wiki/Neural_gas') neural gas], and #[a(href='https://en.wikipedia.org/wiki/Growing_neural_gas') growing neural gas].
+  dt: a(href='https://github.com/lmjohns3/py-rbm') py-rbm
+  dd Single-module implementation of Several types of Restricted Boltzmann Machines.
+  dt: a(href='https://github.com/EmbodiedCognition/pagoda') pagoda
+  dd Combines the ODE physics simulator with some OpenGL tools for visualization, and a simple grammar for defining articulated bodies.
+  dt: a(href='https://github.com/lmjohns3/py-trm') py-trm
+  dd A Python wrapper for the #[a(href='https://gnu.org/software/gnuspeech') Gnuspeech] Tube Resonance Model, a vocal synthesizer.
